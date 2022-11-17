@@ -14,6 +14,10 @@
 		15D9BC312925DC91005C9186 /* saladaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC302925DC91005C9186 /* saladaTests.swift */; };
 		15D9BC3B2925DC91005C9186 /* saladaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC3A2925DC91005C9186 /* saladaUITests.swift */; };
 		15D9BC3D2925DC91005C9186 /* saladaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC3C2925DC91005C9186 /* saladaUITestsLaunchTests.swift */; };
+		15D9BC4A2925DF57005C9186 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC492925DF57005C9186 /* DataStore.swift */; };
+		15D9BC5229265556005C9186 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15D9BC5129265556005C9186 /* WidgetKit.framework */; };
+		15D9BC5429265556005C9186 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15D9BC5329265556005C9186 /* SwiftUI.framework */; };
+		15D9BC6429265557005C9186 /* SaladaWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 15D9BC4F29265556005C9186 /* SaladaWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +35,28 @@
 			remoteGlobalIDString = 15D9BC1B2925DC90005C9186;
 			remoteInfo = salada;
 		};
+		15D9BC6229265557005C9186 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 15D9BC142925DC90005C9186 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 15D9BC4E29265556005C9186;
+			remoteInfo = SaladaWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		15D9BC6829265557005C9186 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				15D9BC6429265557005C9186 /* SaladaWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		15D9BC1C2925DC90005C9186 /* salada.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = salada.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +69,10 @@
 		15D9BC362925DC91005C9186 /* saladaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = saladaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15D9BC3A2925DC91005C9186 /* saladaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saladaUITests.swift; sourceTree = "<group>"; };
 		15D9BC3C2925DC91005C9186 /* saladaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saladaUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		15D9BC492925DF57005C9186 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		15D9BC4F29265556005C9186 /* SaladaWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SaladaWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		15D9BC5129265556005C9186 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		15D9BC5329265556005C9186 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +97,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		15D9BC4C29265556005C9186 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15D9BC5429265556005C9186 /* SwiftUI.framework in Frameworks */,
+				15D9BC5229265556005C9186 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -77,6 +115,7 @@
 				15D9BC1E2925DC90005C9186 /* salada */,
 				15D9BC2F2925DC91005C9186 /* saladaTests */,
 				15D9BC392925DC91005C9186 /* saladaUITests */,
+				15D9BC5029265556005C9186 /* Frameworks */,
 				15D9BC1D2925DC90005C9186 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,6 +126,7 @@
 				15D9BC1C2925DC90005C9186 /* salada.app */,
 				15D9BC2C2925DC91005C9186 /* saladaTests.xctest */,
 				15D9BC362925DC91005C9186 /* saladaUITests.xctest */,
+				15D9BC4F29265556005C9186 /* SaladaWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -98,6 +138,7 @@
 				15D9BC212925DC90005C9186 /* ContentView.swift */,
 				15D9BC232925DC91005C9186 /* Assets.xcassets */,
 				15D9BC252925DC91005C9186 /* Preview Content */,
+				15D9BC492925DF57005C9186 /* DataStore.swift */,
 			);
 			path = salada;
 			sourceTree = "<group>";
@@ -127,6 +168,15 @@
 			path = saladaUITests;
 			sourceTree = "<group>";
 		};
+		15D9BC5029265556005C9186 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				15D9BC5129265556005C9186 /* WidgetKit.framework */,
+				15D9BC5329265556005C9186 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -137,10 +187,12 @@
 				15D9BC182925DC90005C9186 /* Sources */,
 				15D9BC192925DC90005C9186 /* Frameworks */,
 				15D9BC1A2925DC90005C9186 /* Resources */,
+				15D9BC6829265557005C9186 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				15D9BC6329265557005C9186 /* PBXTargetDependency */,
 			);
 			name = salada;
 			productName = salada;
@@ -183,6 +235,23 @@
 			productReference = 15D9BC362925DC91005C9186 /* saladaUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		15D9BC4E29265556005C9186 /* SaladaWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 15D9BC6529265557005C9186 /* Build configuration list for PBXNativeTarget "SaladaWidgetExtension" */;
+			buildPhases = (
+				15D9BC4B29265556005C9186 /* Sources */,
+				15D9BC4C29265556005C9186 /* Frameworks */,
+				15D9BC4D29265556005C9186 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SaladaWidgetExtension;
+			productName = SaladaWidgetExtension;
+			productReference = 15D9BC4F29265556005C9186 /* SaladaWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -204,6 +273,9 @@
 						CreatedOnToolsVersion = 14.1;
 						TestTargetID = 15D9BC1B2925DC90005C9186;
 					};
+					15D9BC4E29265556005C9186 = {
+						CreatedOnToolsVersion = 14.1;
+					};
 				};
 			};
 			buildConfigurationList = 15D9BC172925DC90005C9186 /* Build configuration list for PBXProject "salada" */;
@@ -222,6 +294,7 @@
 				15D9BC1B2925DC90005C9186 /* salada */,
 				15D9BC2B2925DC91005C9186 /* saladaTests */,
 				15D9BC352925DC91005C9186 /* saladaUITests */,
+				15D9BC4E29265556005C9186 /* SaladaWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -250,6 +323,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		15D9BC4D29265556005C9186 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -258,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15D9BC222925DC90005C9186 /* ContentView.swift in Sources */,
+				15D9BC4A2925DF57005C9186 /* DataStore.swift in Sources */,
 				15D9BC202925DC90005C9186 /* saladaApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,6 +360,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		15D9BC4B29265556005C9186 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -291,6 +379,11 @@
 			isa = PBXTargetDependency;
 			target = 15D9BC1B2925DC90005C9186 /* salada */;
 			targetProxy = 15D9BC372925DC91005C9186 /* PBXContainerItemProxy */;
+		};
+		15D9BC6329265557005C9186 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 15D9BC4E29265556005C9186 /* SaladaWidgetExtension */;
+			targetProxy = 15D9BC6229265557005C9186 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -543,6 +636,60 @@
 			};
 			name = Release;
 		};
+		15D9BC6629265557005C9186 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PNW69CQUUX;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SaladaWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SaladaWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brunoocasali.salada.SaladaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		15D9BC6729265557005C9186 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PNW69CQUUX;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SaladaWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SaladaWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brunoocasali.salada.SaladaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -578,6 +725,15 @@
 			buildConfigurations = (
 				15D9BC472925DC91005C9186 /* Debug */,
 				15D9BC482925DC91005C9186 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		15D9BC6529265557005C9186 /* Build configuration list for PBXNativeTarget "SaladaWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				15D9BC6629265557005C9186 /* Debug */,
+				15D9BC6729265557005C9186 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
