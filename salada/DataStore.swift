@@ -11,14 +11,14 @@ struct Currency: Decodable {
   var from: String = ""
   var to: String = ""
 
-  init() { }
-
   init(lastUpdated: Date, sourceA: Double, sourceB: Double, sourceP: Double, rawExchange: String) {
     self.sourceA = sourceA
     self.sourceB = sourceB
     self.sourceP = sourceP
     self.rawExchange = rawExchange
     self.lastUpdated = lastUpdated
+
+    self.setItems()
   }
 
   enum CodingKeys: String, CodingKey {
@@ -42,6 +42,12 @@ struct Currency: Decodable {
     self.rawExchange = try container.decode(String.self, forKey: .rawExchange)
     self.lastUpdated = try container.decode(Date.self, forKey: .lastUpdated)
 
+    self.setItems()
+  }
+
+  init() { }
+
+  private mutating func setItems() {
     let list = self.rawExchange.components(separatedBy: "/")
 
     self.from = list[0]
@@ -50,7 +56,9 @@ struct Currency: Decodable {
 
   func fromStylized() -> String {
     if self.from == "EUR" {
-      return "euro"
+      return "Euro"
+    } else if self.from == "USD" {
+      return "US Dollar"
     }
 
     return self.from
@@ -62,7 +70,12 @@ class CurrencyDataStore: ObservableObject {
   // @Published is a property wrapper that announces when changes occur to the DataStore.
   @Published var current = Currency()
   @Published var state = State.loading
-  
+
+  init(current: Currency = Currency(), state: State = State.loading) {
+    self.current = current
+    self.state = state
+  }
+
   enum State {
     case loading
     case failed(Error)

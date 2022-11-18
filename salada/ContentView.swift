@@ -11,9 +11,9 @@ var list = [100.0, 1000.0, 9306.0]
 
 let baseURL = "https://paegx14xte.execute-api.us-east-1.amazonaws.com/dev/quote"
 
-
 struct ContentView: View {
   @ObservedObject var data = CurrencyDataStore()
+//  let data: CurrencyDataStore
 
   var body: some View {
     NavigationView {
@@ -27,118 +27,136 @@ struct ContentView: View {
           Text("Loading currencies")
         }
       case .loaded:
-        ZStack {
-          Color.gray
-              .opacity(0.18)
-              .edgesIgnoringSafeArea(.all)
-
-          VStack(alignment: .leading) {
-            HStack {
-              Text("\(data.current.fromStylized()) today")
-                .font(Font.custom("Ubuntu-Light", size: 42))
-                .padding(.all, 10)
-
-              Spacer(minLength: 0)
-            }.padding(.all, 10)
-//              .background(RoundedRectangle(cornerRadius: 6).fill(Color("Euro")))
-//              .background(ContainerRelativeShape().fill(Color.blue))
-
-            Spacer(minLength: 0)
-          }.padding(.all, 10)
-
-          VStack(alignment: .center) {
-            HStack {
-              Text(data.current.amount(), format: .currency(code: data.current.to))
-                .font(Font.custom("Ubuntu-Medium", size: 72))
-            }
-
-            HStack {
-              Text("🕑")
-
-              HStack {
-                Text("\(data.current.lastUpdated, style: .relative) ago")
-              }
-            }.padding([.top, .bottom], 50)
-
-
-//          Text("Saved values:")
-
-            HStack {
-              VStack(alignment: .leading) {
-                ForEach(list, id: \.self) { amount in
-                  Text("\(amount, format: .currency(code: data.current.from))  👉 \(data.current.amount() * amount, format: .currency(code: data.current.to))")
-                    .font(Font.custom("Ubuntu-Medium", size: 22))
-                    .padding(0.4)
-                }
-              }
-
-              Spacer(minLength: 0)
-            }.padding(.leading, 50.0)
-          }
-        }
+        LoadedView(data: self.data)
       }
-
-    }.onAppear { self.loadCurrency() }
+    }.onAppear { loadCurrency(from: "EUR", data: self.data) }
   }
+}
 
-  func loadCurrency() {
-    let url = URL(string: "\(baseURL)?from=EUR&to=BRL")!
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .millisecondsSince1970
+func loadCurrency(from: String = "EUR", data: CurrencyDataStore = CurrencyDataStore()) {
+  let url = URL(string: "\(baseURL)?from=\(from)&to=BRL")!
+  let decoder = JSONDecoder()
+  decoder.dateDecodingStrategy = .millisecondsSince1970
 
-    pub = URLSession.shared.dataTaskPublisher(for: url)
+  pub = URLSession.shared.dataTaskPublisher(for: url)
 //      .print("Test")
-      .tryMap() { element -> Data in
-        guard let httpResponse = element.response as? HTTPURLResponse,
-          httpResponse.statusCode == 200 else {
-            throw URLError(.badServerResponse)
-          }
+    .tryMap() { element -> Data in
+      guard let httpResponse = element.response as? HTTPURLResponse,
+        httpResponse.statusCode == 200 else {
+          throw URLError(.badServerResponse)
+        }
 //        usleep(500000); // half second
 
-        return element.data
-      }
-      .decode(type: [Currency].self, decoder: decoder)
-      .receive(on: RunLoop.main)
-      .eraseToAnyPublisher()
-
-    sub = pub?.sink(
-      receiveCompletion: { completion in
-          switch completion {
-          case .finished:
-              break
-          case .failure(let error):
-            self.data.state = .failed(error)
-            print(error.localizedDescription)
-          }
-      },
-      receiveValue: { self.data.setCurrent(currency: $0.first) }
-    )
-  }
-}
-
-struct ColorSquare: View {
-  let color: Color
-
-  var body: some View {
-    color
-    .frame(width: 50, height: 50)
-  }
-}
-
-struct SmallColorSquare: View {
-    let color: Color
-
-    var body: some View {
-        color
-        .frame(width: 10, height: 10)
+      return element.data
     }
+    .decode(type: [Currency].self, decoder: decoder)
+    .receive(on: RunLoop.main)
+    .eraseToAnyPublisher()
+
+  sub = pub?.sink(
+    receiveCompletion: { completion in
+        switch completion {
+        case .finished:
+            break
+        case .failure(let error):
+          data.state = .failed(error)
+          print(error.localizedDescription)
+        }
+    },
+    receiveValue: { data.setCurrent(currency: $0.first) }
+  )
 }
 
+extension CurrencyDataStore {
+  static func previewData() -> CurrencyDataStore {
+    let currency = Currency(
+      lastUpdated: Date.now,
+      sourceA: 5.12,
+      sourceB: 0,
+      sourceP: 4.142,
+      rawExchange: "EUR/BRL"
+    )
+
+    return CurrencyDataStore(current: currency, state: .loaded)
+  }
+}
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
+  static var previews: some View {
       Group {
-        ContentView()
+        ContentView(data: .previewData())
       }
     }
+}
+
+struct TileView: View {
+  @ObservedObject var data = CurrencyDataStore()
+
+  var body: some View {
+    ZStack(alignment: .topTrailing) {
+      Image("flag-\(data.current.from)")
+        .resizable()
+        .scaledToFill()
+        .edgesIgnoringSafeArea(.all)
+        .clipShape(Circle())
+        .opacity(0.78)
+        .frame(width: UIScreen.main.bounds.width / 1.5, height: UIScreen.main.bounds.height / 3)
+        .offset(x: 50, y: -100)
+
+      HStack {
+        Text(data.current.fromStylized())
+          .font(Font.custom("Ubuntu-Medium", size: 62))
+          .padding(.all, 10)
+
+        Spacer(minLength: 0)
+      }.padding(.all, 10)
+    }.onTapGesture {
+      if self.data.current.from == "USD" {
+        loadCurrency(from: "EUR", data: self.data)
+      } else {
+        loadCurrency(from: "USD", data: self.data)
+      }
+    }
+  }
+}
+
+struct LoadedView: View {
+  @ObservedObject var data = CurrencyDataStore()
+
+  var body: some View {
+    ZStack {
+      Color.gray
+          .opacity(0.18)
+          .edgesIgnoringSafeArea(.all)
+
+      VStack(alignment: .leading) {
+        TileView(data: data)
+
+        Spacer(minLength: 0)
+      }.padding(.all, 1)
+
+      VStack(alignment: .center) {
+        HStack(alignment: .lastTextBaseline) {
+          Text(data.current.amount(), format: .currency(code: data.current.to))
+            .font(Font.custom("Ubuntu-Medium", size: 74))
+
+          Text(data.current.to)
+            .font(Font.custom("Ubuntu-Medium", size: 32))
+            .multilineTextAlignment(.trailing)
+        }
+
+        HStack {
+          VStack(alignment: .leading) {
+            ForEach(list, id: \.self) { amount in
+              Text("\(amount, format: .currency(code: data.current.from))  👉 \(data.current.amount() * amount, format: .currency(code: data.current.to))")
+                .font(Font.custom("Ubuntu-Medium", size: 22))
+                .padding(0.4)
+            }
+          }
+
+          Spacer(minLength: 0)
+        }.padding(.leading, 50.0)
+      }
+    }
+  }
 }
