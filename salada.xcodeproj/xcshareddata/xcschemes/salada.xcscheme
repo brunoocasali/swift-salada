@@ -84,7 +84,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "15D9BC1B2925DC90005C9186"
-            BuildableName = "salada.app"
+            BuildableName = "Salada.app"
             BlueprintName = "salada"
             ReferencedContainer = "container:salada.xcodeproj">
          </BuildableReference>

@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct saladaApp: App {
+struct SaladaApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

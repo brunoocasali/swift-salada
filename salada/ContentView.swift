@@ -7,15 +7,16 @@ var sub: Cancellable? = nil
 
 var data: Currency? = nil
 var response: URLResponse? = nil
+var list = [100.0, 1000.0, 9306.0]
 
 let baseURL = "https://paegx14xte.execute-api.us-east-1.amazonaws.com/dev/quote"
+
 
 struct ContentView: View {
   @ObservedObject var data = CurrencyDataStore()
 
   var body: some View {
     NavigationView {
-
       switch self.data.state {
       case .failed(_):
         VStack {
@@ -26,17 +27,53 @@ struct ContentView: View {
           Text("Loading currencies")
         }
       case .loaded:
-        VStack {
-          Text(data.current.from)
-          Text(String(format: "%.2f", data.current.amount()))
-  //          Color.blue
-          HStack {
-            Text("last updated: ").padding()
+        ZStack {
+          Color.gray
+              .opacity(0.18)
+              .edgesIgnoringSafeArea(.all)
+
+          VStack(alignment: .leading) {
             HStack {
-              Text(data.current.lastUpdated, style: .date)
-              Text(data.current.lastUpdated, style: .time)
-  //              Color.yellow
+              Text("\(data.current.fromStylized()) today")
+                .font(Font.custom("Ubuntu-Light", size: 42))
+                .padding(.all, 10)
+
+              Spacer(minLength: 0)
+            }.padding(.all, 10)
+//              .background(RoundedRectangle(cornerRadius: 6).fill(Color("Euro")))
+//              .background(ContainerRelativeShape().fill(Color.blue))
+
+            Spacer(minLength: 0)
+          }.padding(.all, 10)
+
+          VStack(alignment: .center) {
+            HStack {
+              Text(data.current.amount(), format: .currency(code: data.current.to))
+                .font(Font.custom("Ubuntu-Medium", size: 72))
             }
+
+            HStack {
+              Text("🕑")
+
+              HStack {
+                Text("\(data.current.lastUpdated, style: .relative) ago")
+              }
+            }.padding([.top, .bottom], 50)
+
+
+//          Text("Saved values:")
+
+            HStack {
+              VStack(alignment: .leading) {
+                ForEach(list, id: \.self) { amount in
+                  Text("\(amount, format: .currency(code: data.current.from))  👉 \(data.current.amount() * amount, format: .currency(code: data.current.to))")
+                    .font(Font.custom("Ubuntu-Medium", size: 22))
+                    .padding(0.4)
+                }
+              }
+
+              Spacer(minLength: 0)
+            }.padding(.leading, 50.0)
           }
         }
       }
@@ -56,7 +93,7 @@ struct ContentView: View {
           httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)
           }
-        usleep(500000); // half second
+//        usleep(500000); // half second
 
         return element.data
       }
@@ -101,7 +138,6 @@ struct SmallColorSquare: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
       Group {
-//        ContentView(myData: .current)
         ContentView()
       }
     }

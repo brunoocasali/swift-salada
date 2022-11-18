@@ -7,14 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		15D9BC202925DC90005C9186 /* saladaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC1F2925DC90005C9186 /* saladaApp.swift */; };
+		15D9BC202925DC90005C9186 /* SaladaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC1F2925DC90005C9186 /* SaladaApp.swift */; };
 		15D9BC222925DC90005C9186 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC212925DC90005C9186 /* ContentView.swift */; };
-		15D9BC242925DC91005C9186 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC232925DC91005C9186 /* Assets.xcassets */; };
 		15D9BC272925DC91005C9186 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC262925DC91005C9186 /* Preview Assets.xcassets */; };
 		15D9BC312925DC91005C9186 /* saladaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC302925DC91005C9186 /* saladaTests.swift */; };
 		15D9BC3B2925DC91005C9186 /* saladaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC3A2925DC91005C9186 /* saladaUITests.swift */; };
 		15D9BC3D2925DC91005C9186 /* saladaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC3C2925DC91005C9186 /* saladaUITestsLaunchTests.swift */; };
 		15D9BC4A2925DF57005C9186 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC492925DF57005C9186 /* DataStore.swift */; };
+		15D9BC6A29272EF7005C9186 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC6929272EF7005C9186 /* Poppins-Light.ttf */; };
+		15D9BC6B29272EF7005C9186 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC6929272EF7005C9186 /* Poppins-Light.ttf */; };
+		15D9BC6C29272EF7005C9186 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC6929272EF7005C9186 /* Poppins-Light.ttf */; };
+		15D9BC722927334B005C9186 /* Ubuntu-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC702927334B005C9186 /* Ubuntu-Bold.ttf */; };
+		15D9BC732927334B005C9186 /* Ubuntu-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC702927334B005C9186 /* Ubuntu-Bold.ttf */; };
+		15D9BC742927334B005C9186 /* Ubuntu-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC702927334B005C9186 /* Ubuntu-Bold.ttf */; };
+		15D9BC752927334B005C9186 /* Ubuntu-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC712927334B005C9186 /* Ubuntu-Medium.ttf */; };
+		15D9BC762927334B005C9186 /* Ubuntu-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC712927334B005C9186 /* Ubuntu-Medium.ttf */; };
+		15D9BC772927334B005C9186 /* Ubuntu-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC712927334B005C9186 /* Ubuntu-Medium.ttf */; };
+		15D9BC7829274304005C9186 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC232925DC91005C9186 /* Assets.xcassets */; };
+		15D9BC7A29274363005C9186 /* Ubuntu-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC7929274363005C9186 /* Ubuntu-Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,8 +58,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		15D9BC1C2925DC90005C9186 /* Salada Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Salada Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		15D9BC1F2925DC90005C9186 /* saladaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = saladaApp.swift; sourceTree = "<group>"; };
+		15D9BC1C2925DC90005C9186 /* salada.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = salada.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		15D9BC1F2925DC90005C9186 /* SaladaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaladaApp.swift; sourceTree = "<group>"; };
 		15D9BC212925DC90005C9186 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		15D9BC232925DC91005C9186 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15D9BC262925DC91005C9186 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -61,6 +71,11 @@
 		15D9BC492925DF57005C9186 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		15D9BC5129265556005C9186 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		15D9BC5329265556005C9186 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		15D9BC6929272EF7005C9186 /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
+		15D9BC6F2927318E005C9186 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		15D9BC702927334B005C9186 /* Ubuntu-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Bold.ttf"; sourceTree = "<group>"; };
+		15D9BC712927334B005C9186 /* Ubuntu-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Medium.ttf"; sourceTree = "<group>"; };
+		15D9BC7929274363005C9186 /* Ubuntu-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +106,7 @@
 		15D9BC132925DC90005C9186 = {
 			isa = PBXGroup;
 			children = (
+				15D9BC6D292730ED005C9186 /* Shared */,
 				15D9BC1E2925DC90005C9186 /* salada */,
 				15D9BC2F2925DC91005C9186 /* saladaTests */,
 				15D9BC392925DC91005C9186 /* saladaUITests */,
@@ -102,7 +118,7 @@
 		15D9BC1D2925DC90005C9186 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				15D9BC1C2925DC90005C9186 /* Salada Dev.app */,
+				15D9BC1C2925DC90005C9186 /* salada.app */,
 				15D9BC2C2925DC91005C9186 /* saladaTests.xctest */,
 				15D9BC362925DC91005C9186 /* saladaUITests.xctest */,
 			);
@@ -112,7 +128,8 @@
 		15D9BC1E2925DC90005C9186 /* salada */ = {
 			isa = PBXGroup;
 			children = (
-				15D9BC1F2925DC90005C9186 /* saladaApp.swift */,
+				15D9BC6F2927318E005C9186 /* Info.plist */,
+				15D9BC1F2925DC90005C9186 /* SaladaApp.swift */,
 				15D9BC212925DC90005C9186 /* ContentView.swift */,
 				15D9BC232925DC91005C9186 /* Assets.xcassets */,
 				15D9BC252925DC91005C9186 /* Preview Content */,
@@ -155,6 +172,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		15D9BC6D292730ED005C9186 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				15D9BC6E292730F7005C9186 /* CustomFonts */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		15D9BC6E292730F7005C9186 /* CustomFonts */ = {
+			isa = PBXGroup;
+			children = (
+				15D9BC7929274363005C9186 /* Ubuntu-Light.ttf */,
+				15D9BC702927334B005C9186 /* Ubuntu-Bold.ttf */,
+				15D9BC712927334B005C9186 /* Ubuntu-Medium.ttf */,
+				15D9BC6929272EF7005C9186 /* Poppins-Light.ttf */,
+			);
+			path = CustomFonts;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -173,7 +209,7 @@
 			);
 			name = salada;
 			productName = salada;
-			productReference = 15D9BC1C2925DC90005C9186 /* Salada Dev.app */;
+			productReference = 15D9BC1C2925DC90005C9186 /* salada.app */;
 			productType = "com.apple.product-type.application";
 		};
 		15D9BC2B2925DC91005C9186 /* saladaTests */ = {
@@ -260,8 +296,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15D9BC722927334B005C9186 /* Ubuntu-Bold.ttf in Resources */,
+				15D9BC752927334B005C9186 /* Ubuntu-Medium.ttf in Resources */,
 				15D9BC272925DC91005C9186 /* Preview Assets.xcassets in Resources */,
-				15D9BC242925DC91005C9186 /* Assets.xcassets in Resources */,
+				15D9BC6A29272EF7005C9186 /* Poppins-Light.ttf in Resources */,
+				15D9BC7A29274363005C9186 /* Ubuntu-Light.ttf in Resources */,
+				15D9BC7829274304005C9186 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +309,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15D9BC732927334B005C9186 /* Ubuntu-Bold.ttf in Resources */,
+				15D9BC6B29272EF7005C9186 /* Poppins-Light.ttf in Resources */,
+				15D9BC762927334B005C9186 /* Ubuntu-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +319,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15D9BC742927334B005C9186 /* Ubuntu-Bold.ttf in Resources */,
+				15D9BC6C29272EF7005C9186 /* Poppins-Light.ttf in Resources */,
+				15D9BC772927334B005C9186 /* Ubuntu-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,7 +334,7 @@
 			files = (
 				15D9BC222925DC90005C9186 /* ContentView.swift in Sources */,
 				15D9BC4A2925DF57005C9186 /* DataStore.swift in Sources */,
-				15D9BC202925DC90005C9186 /* saladaApp.swift in Sources */,
+				15D9BC202925DC90005C9186 /* SaladaApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,18 +496,21 @@
 				DEVELOPMENT_TEAM = PNW69CQUUX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = salada/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Salada Dev";
+				"INFOPLIST_KEY_CFBundleDisplayName[sdk=*]" = "Salada Dev";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.brunoocasali.salada;
-				PRODUCT_NAME = "Salada Dev";
+				PRODUCT_NAME = salada;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -479,18 +528,21 @@
 				DEVELOPMENT_TEAM = PNW69CQUUX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = salada/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Salada Dev";
+				"INFOPLIST_KEY_CFBundleDisplayName[sdk=*]" = Salada;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.brunoocasali.salada;
-				PRODUCT_NAME = Salada;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
