@@ -1,117 +1,91 @@
-//
-//  ContentView.swift
-//  salada
-//
-//  Created by Bruno on 17/11/22.
-//
-
 import SwiftUI
 import UIKit
 import Combine
 
+var pub: AnyPublisher<[Currency], any Error>? = nil
+var sub: Cancellable? = nil
+
+var data: Currency? = nil
+var response: URLResponse? = nil
+
+let baseURL = "https://paegx14xte.execute-api.us-east-1.amazonaws.com/dev/quote"
+
 struct ContentView: View {
-    // @ObservedObject is a property wrapper that gives the views (User Interface) a way to watch the state of an object. For example, a datastore.
-    // Here we create a taskStore observedObject that references to TaskDataStore (We will be defining this later on).
-//    let myData: CurrencyDataStore
+  @ObservedObject var data = CurrencyDataStore()
 
-    @ObservedObject var currency = CurrencyDataStore()
+  var body: some View {
+    NavigationView {
 
-    // The state property wrapper is used to move the variable storage outside of the current struct into shared storage.
-    // We create a variable newTask to maintain the current task that is entered on the screen.
-    @State var newTask : String = ""
-
-    // Body of the ContentView
-    var body: some View {
-      NavigationView {
+      switch self.data.state {
+      case .failed(_):
         VStack {
-          Text(String(currency.current?.value ?? "loading"))
-          Text(String(currency.current?.amount ?? 0))
-//          Color.blue
+          Text("Failed loading currencies").foregroundColor(Color.red)
+        }
+      case .loading:
+        VStack {
+          Text("Loading currencies")
+        }
+      case .loaded:
+        VStack {
+          Text(data.current.from)
+          Text(String(format: "%.2f", data.current.amount()))
+  //          Color.blue
           HStack {
             Text("last updated: ").padding()
             HStack {
-              Text(currency.current?.lastUpdated ?? Date.now, style: .date)
-              Text(currency.current?.lastUpdated ?? Date.now, style: .time)
-//              Color.yellow
+              Text(data.current.lastUpdated, style: .date)
+              Text(data.current.lastUpdated, style: .time)
+  //              Color.yellow
             }
           }
         }
-      }.onAppear { self.loadCurrency() }
-//      var body: some View {
-//          Grid(alignment: .topLeading,
-//               horizontalSpacing: 1,
-//               verticalSpacing: 30) {
-//              GridRow {
-//                  ForEach(0..<5) { _ in
-//                      ColorSquare(color: .pink)
-//                  }
-//              }
-//              GridRow(alignment: .bottom) {
-//                  SmallColorSquare(color: .yellow)
-//                      .gridColumnAlignment(.center)
-//                  SmallColorSquare(color: .yellow)
-//                  SmallColorSquare(color: .yellow)
-//                  SmallColorSquare(color: .yellow)
-//                  ColorSquare(color: .yellow)
-//              }
-//          GridRow(alignment: .center) {
-//                  SmallColorSquare(color: .mint)
-//                  SmallColorSquare(color: .mint)
-//                      .gridColumnAlignment(.trailing)
-//                  SmallColorSquare(color: .mint)
-//                  SmallColorSquare(color: .mint)
-//                  ColorSquare(color: .mint)
-//
-//              }
-//              GridRow {
-//                  SmallColorSquare(color: .purple)
-//                      .gridCellAnchor(.bottomTrailing)
-//
-//                  SmallColorSquare(color: .purple)
-//                      .gridCellAnchor(.bottomLeading)
-//
-//                  SmallColorSquare(color: .purple)
-//                  SmallColorSquare(color: .purple)
-//                  ColorSquare(color: .purple)
-//
-//              }
-//          }
-//      }
-    }
+      }
 
+    }.onAppear { self.loadCurrency() }
+  }
 
   func loadCurrency() {
-    let url = URL(string: "https://paegx14xte.execute-api.us-east-1.amazonaws.com/dev/quote?from=EUR&to=BRL")!
+    let url = URL(string: "\(baseURL)?from=EUR&to=BRL")!
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .millisecondsSince1970
 
-    let task = URLSession.shared.dataTask(with: url) { data, response, error in
-        if let data = data {
-          print(String(data: data, encoding: String.Encoding.utf8) ?? "something")
-          let decoder = JSONDecoder()
-          decoder.dateDecodingStrategy = .millisecondsSince1970
+    pub = URLSession.shared.dataTaskPublisher(for: url)
+//      .print("Test")
+      .tryMap() { element -> Data in
+        guard let httpResponse = element.response as? HTTPURLResponse,
+          httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+          }
+        usleep(500000); // half second
 
-          if let currencies = try? decoder.decode([Currency].self, from: data) {
-              print(currencies)
-            self.currency.current = currencies.first
+        return element.data
+      }
+      .decode(type: [Currency].self, decoder: decoder)
+      .receive(on: RunLoop.main)
+      .eraseToAnyPublisher()
 
-            } else {
-                print("Invalid Response")
-            }
-        } else if let error = error {
-            print("HTTP Request Failed \(error)")
-        }
-    }
-
-    task.resume()
+    sub = pub?.sink(
+      receiveCompletion: { completion in
+          switch completion {
+          case .finished:
+              break
+          case .failure(let error):
+            self.data.state = .failed(error)
+            print(error.localizedDescription)
+          }
+      },
+      receiveValue: { self.data.setCurrent(currency: $0.first) }
+    )
   }
 }
 
 struct ColorSquare: View {
-    let color: Color
+  let color: Color
 
-    var body: some View {
-        color
-        .frame(width: 50, height: 50)
-    }
+  var body: some View {
+    color
+    .frame(width: 50, height: 50)
+  }
 }
 
 struct SmallColorSquare: View {

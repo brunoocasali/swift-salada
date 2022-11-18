@@ -2,46 +2,71 @@ import Foundation
 import SwiftUI
 import Combine
 
-// Here we define an ID and a TaskItem for every Task.
-struct Task : Identifiable {
-    var id = String()
-    var taskItem = String()
-}
-
-// We define the DataStore as an array of Tasks.
-class TaskDataStore: ObservableObject {
-    // @Published is a property wrapper that announces when changes occur to the DataStore.
-    @Published var tasks = [Task]()
-}
-
-
-// Here we define an ID and a TaskItem for every Task.
 struct Currency: Decodable {
-//  let from: String
-  let amount: Double
-  let value: String
-  let lastUpdated: Date
+  var sourceA: Double = 0
+  var sourceB: Double = 0
+  var sourceP: Double = 0
+  var rawExchange: String = ""
+  var lastUpdated: Date = Date.now
+  var from: String = ""
+  var to: String = ""
 
-  init(
-    lastUpdated: Date,
-    amount: Double,
-    value: String) {
-    self.amount = amount
-//    self.to = to
-    self.value = value
-      self.lastUpdated = lastUpdated
+  init() { }
+
+  init(lastUpdated: Date, sourceA: Double, sourceB: Double, sourceP: Double, rawExchange: String) {
+    self.sourceA = sourceA
+    self.sourceB = sourceB
+    self.sourceP = sourceP
+    self.rawExchange = rawExchange
+    self.lastUpdated = lastUpdated
   }
 
   enum CodingKeys: String, CodingKey {
-    case value = "s"
-    case amount = "a"
+    case sourceA = "a"
+    case sourceB = "b"
+    case sourceP = "p"
+    case rawExchange = "s"
     case lastUpdated = "t"
-//    case from, to = "s"
+  }
+
+  func amount() -> Double {
+    [self.sourceA, self.sourceB, self.sourceP].max() ?? 0
+  }
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+
+    self.sourceA = try container.decode(Double.self, forKey: .sourceA)
+    self.sourceB = try container.decode(Double.self, forKey: .sourceB)
+    self.sourceP = try container.decode(Double.self, forKey: .sourceP)
+    self.rawExchange = try container.decode(String.self, forKey: .rawExchange)
+    self.lastUpdated = try container.decode(Date.self, forKey: .lastUpdated)
+
+    let list = self.rawExchange.components(separatedBy: "/")
+
+    self.from = list[0]
+    self.to = list[1]
   }
 }
 
-// We define the DataStore as an array of Tasks.
+// We define the DataStore as a Currency object
 class CurrencyDataStore: ObservableObject {
-    // @Published is a property wrapper that announces when changes occur to the DataStore.
-  @Published var current: Currency?
+  // @Published is a property wrapper that announces when changes occur to the DataStore.
+  @Published var current = Currency()
+  @Published var state = State.loading
+  
+  enum State {
+    case loading
+    case failed(Error)
+    case loaded//(Currency)
+  }
+
+  func setCurrent(currency: Currency?) {
+    guard let data = currency else {
+      return;
+    }
+
+    self.current = data
+    self.state = .loaded
+  }
 }
