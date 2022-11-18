@@ -33,7 +33,19 @@ struct ContentView: View {
   }
 }
 
+func styleCode(from: String) -> String {
+  if from == "eur" {
+    return "Euro"
+  } else if from == "usd" {
+    return "US Dollar"
+  }
+
+  return from
+}
+
 func loadCurrency(from: String = "EUR", data: CurrencyDataStore = CurrencyDataStore()) {
+//  data.state = .loading
+
   let url = URL(string: "\(baseURL)?from=\(from)&to=BRL")!
   let decoder = JSONDecoder()
   decoder.dateDecodingStrategy = .millisecondsSince1970
@@ -45,7 +57,7 @@ func loadCurrency(from: String = "EUR", data: CurrencyDataStore = CurrencyDataSt
         httpResponse.statusCode == 200 else {
           throw URLError(.badServerResponse)
         }
-//        usleep(500000); // half second
+        usleep(200000); // 200ms
 
       return element.data
     }
@@ -92,6 +104,9 @@ struct ContentView_Previews: PreviewProvider {
 struct TileView: View {
   @ObservedObject var data = CurrencyDataStore()
 
+  private let currencies: [String] = ["eur", "usd"]
+  @State var activeCurrency: String = "eur"
+
   var body: some View {
     ZStack(alignment: .topTrailing) {
       Image("flag-\(data.current.from)")
@@ -101,21 +116,25 @@ struct TileView: View {
         .clipShape(Circle())
         .opacity(0.78)
         .frame(width: UIScreen.main.bounds.width / 1.5, height: UIScreen.main.bounds.height / 3)
-        .offset(x: 50, y: -100)
+      .offset(x: 50, y: -100)
 
-      HStack {
-        Text(data.current.fromStylized())
-          .font(Font.custom("Ubuntu-Medium", size: 62))
-          .padding(.all, 10)
+      TabView(selection: $activeCurrency) {
+        ForEach(currencies, id: \.self) { code in
+          HStack {
+            Text(styleCode(from: code))
+              .font(Font.custom("Ubuntu-Medium", size: 62))
+              .padding(.all, 10)
 
-        Spacer(minLength: 0)
-      }.padding(.all, 10)
-    }.onTapGesture {
-      if self.data.current.from == "USD" {
-        loadCurrency(from: "EUR", data: self.data)
-      } else {
-        loadCurrency(from: "USD", data: self.data)
-      }
+            Spacer(minLength: 0)
+          }.padding(.all, 10)
+           .tag(code)
+        }
+      }.tabViewStyle(.page(indexDisplayMode: .always))
+        .frame(height: 190)
+        .edgesIgnoringSafeArea(.all)
+        .onChange(of: activeCurrency, perform: { code in
+          loadCurrency(from: code, data: self.data)
+        })
     }
   }
 }
@@ -145,18 +164,50 @@ struct LoadedView: View {
             .multilineTextAlignment(.trailing)
         }
 
-        HStack {
-          VStack(alignment: .leading) {
-            ForEach(list, id: \.self) { amount in
-              Text("\(amount, format: .currency(code: data.current.from))  👉 \(data.current.amount() * amount, format: .currency(code: data.current.to))")
-                .font(Font.custom("Ubuntu-Medium", size: 22))
-                .padding(0.4)
-            }
+        Divider()
+          .frame(width: UIScreen.main.bounds.width / 3, height: 1)
+          .overlay(.gray)
+          .padding(.bottom, 20)
+
+
+
+        VStack {
+          ZStack(alignment: .leading) {
+            Text("Quick conversions:").padding(.bottom)
+              .font(Font.custom("Ubuntu-Light", size: 20))
+              .multilineTextAlignment(.leading)
           }
 
-          Spacer(minLength: 0)
-        }.padding(.leading, 50.0)
+          ForEach(list, id: \.self) { amount in
+            LineItemView(rate: amount, data: self.data)
+          }
+        }
       }
     }
+  }
+}
+
+struct LineItemView: View {
+  var rate: Double = 0.0
+  var data = CurrencyDataStore()
+
+  var body: some View {
+    ZStack {
+      RoundedRectangle(cornerRadius: 6.0)
+        .foregroundColor(Color.gray.opacity(0.08))
+        .frame(height: 60)
+
+      VStack {
+        HStack {
+          Text(rate, format: .currency(code: data.current.from))
+            .font(Font.custom("Ubuntu-Light", size: 22))
+
+          Spacer()
+
+          Text(data.current.amount() * rate, format: .currency(code: data.current.to))
+            .font(Font.custom("Ubuntu-Light", size: 22))
+        }
+      }.padding(.horizontal)
+    }.padding(.horizontal)
   }
 }

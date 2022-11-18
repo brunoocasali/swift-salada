@@ -53,16 +53,6 @@ struct Currency: Decodable {
     self.from = list[0]
     self.to = list[1]
   }
-
-  func fromStylized() -> String {
-    if self.from == "EUR" {
-      return "Euro"
-    } else if self.from == "USD" {
-      return "US Dollar"
-    }
-
-    return self.from
-  }
 }
 
 // We define the DataStore as a Currency object
