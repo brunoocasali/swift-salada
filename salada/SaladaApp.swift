@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct SaladaApp: App {
-    var body: some Scene {
-        WindowGroup {
-          ContentView(data: CurrencyDataStore())
-        }
+  let persistentContainer = CoreDataManager.shared.persistentContainer
+
+  var body: some Scene {
+    WindowGroup {
+      ContentView(data: CurrencyDataStore()).environment(\.managedObjectContext, persistentContainer.viewContext)
     }
+  }
 }

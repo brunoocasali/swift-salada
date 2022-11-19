@@ -30,7 +30,7 @@ struct ContentView: View {
           Text("Loading currencies!")
         }
       case .loaded:
-        LoadedView(data: self.data, newConversion: "")
+        LoadedView(data: self.data)
       }
     }.onAppear { loadCurrency(from: "EUR", data: self.data) }
       .onChange(of: scenePhase) { newPhase in
@@ -149,9 +149,64 @@ struct TileView: View {
 }
 
 struct LoadedView: View {
+  let maxConversions = 5
+
   @ObservedObject var data = CurrencyDataStore()
-  @State var newConversion: String
+  @State var newConversion: String = ""
   @FocusState private var numIsFocused: Bool
+  @Environment(\.managedObjectContext) private var viewContext
+  @FetchRequest private var conversions: FetchedResults<Conversion>
+
+  init(data: CurrencyDataStore) {
+    let request: NSFetchRequest<Conversion> = Conversion.fetchRequest()
+    request.fetchLimit = maxConversions
+    request.sortDescriptors = [
+      NSSortDescriptor(key: "date", ascending: false)
+    ]
+
+    _conversions = FetchRequest(fetchRequest: request)
+    self.data = data
+  }
+
+  private func addConversion() {
+    let value = Double(newConversion) ?? 0
+
+    if conversions.count >= maxConversions {
+      if let c = conversions.last {
+        do {
+          viewContext.delete(c)
+
+          try viewContext.save()
+        } catch {
+          print(error.localizedDescription)
+        }
+      }
+    }
+
+    do {
+      let conversion = Conversion(context: viewContext)
+
+      conversion.id = UUID()
+      conversion.currency = self.data.current.from
+      conversion.total = value
+      conversion.exchangeRate = self.data.current.amount()
+      conversion.date = Date()
+
+      try viewContext.save()
+    } catch {
+      print(error.localizedDescription)
+    }
+  }
+
+  func deleteConversion(conversion: Conversion) {
+    do {
+      viewContext.delete(conversion)
+
+      try viewContext.save()
+    } catch {
+      print(error.localizedDescription)
+    }
+  }
 
   var body: some View {
     ZStack {
@@ -196,7 +251,7 @@ struct LoadedView: View {
             Spacer(minLength: 50)
 
             Button {
-              self.data.upsertConversions(value: Double(newConversion))
+              addConversion()
               numIsFocused = false
               $newConversion.wrappedValue = ""
             } label: {
@@ -209,11 +264,16 @@ struct LoadedView: View {
         }.frame(height: UIScreen.main.bounds.height / 14)
 
         VStack {
-          ForEach(self.data.conversions, id: \.self) { amount in
-            LineItemView(rate: amount, data: self.data)
+          ForEach(conversions) { conversion in
+            LineItemView(
+              conversion: conversion,
+              rate: conversion.total,
+              data: self.data,
+              onDelete: deleteConversion
+            )
           }
 
-          if self.data.conversions.isEmpty {
+          if self.conversions.isEmpty {
             Text("No quick conversions added yet!")
               .font(Font.custom("Ubuntu-Light", size: 18))
           }
@@ -226,8 +286,17 @@ struct LoadedView: View {
 }
 
 struct LineItemView: View {
+  @State var conversion: Conversion
   @State var rate: Double = 0.0
   var data = CurrencyDataStore()
+  var onDelete: (_ item: Conversion) -> Void
+
+  init(conversion: Conversion, rate: Double, data: CurrencyDataStore = CurrencyDataStore(), onDelete: @escaping (_ item: Conversion) -> Void) {
+    self.conversion = conversion
+    self.rate = rate
+    self.data = data
+    self.onDelete = onDelete
+  }
 
   var body: some View {
     ZStack {
@@ -246,15 +315,12 @@ struct LineItemView: View {
             .font(Font.custom("Ubuntu-Light", size: 22))
         }
       }.padding(.horizontal)
-        .onTapGesture {
-          if let index = self.data.conversions.firstIndex(of: rate) {
-            self.data.conversions.remove(at: index)
-          }
-        }
     }.padding(.horizontal)
+      .onTapGesture {
+        self.onDelete(conversion)
+      }.tag(conversion.id)
   }
 }
-
 
 // Modifier to add a button that can clear the value of an input
 struct TextFieldClearButton: ViewModifier {

@@ -25,6 +25,8 @@
 		15D9BC772927334B005C9186 /* Ubuntu-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC712927334B005C9186 /* Ubuntu-Medium.ttf */; };
 		15D9BC7829274304005C9186 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC232925DC91005C9186 /* Assets.xcassets */; };
 		15D9BC7A29274363005C9186 /* Ubuntu-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC7929274363005C9186 /* Ubuntu-Light.ttf */; };
+		15D9BC7D29291CBA005C9186 /* SaladaModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC7B29291CBA005C9186 /* SaladaModel.xcdatamodeld */; };
+		15D9BC8029291D75005C9186 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC7F29291D75005C9186 /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +78,8 @@
 		15D9BC702927334B005C9186 /* Ubuntu-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Bold.ttf"; sourceTree = "<group>"; };
 		15D9BC712927334B005C9186 /* Ubuntu-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Medium.ttf"; sourceTree = "<group>"; };
 		15D9BC7929274363005C9186 /* Ubuntu-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Light.ttf"; sourceTree = "<group>"; };
+		15D9BC7C29291CBA005C9186 /* SaladaModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SaladaModel.xcdatamodel; sourceTree = "<group>"; };
+		15D9BC7F29291D75005C9186 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,7 @@
 		15D9BC132925DC90005C9186 = {
 			isa = PBXGroup;
 			children = (
+				15D9BC7B29291CBA005C9186 /* SaladaModel.xcdatamodeld */,
 				15D9BC6D292730ED005C9186 /* Shared */,
 				15D9BC1E2925DC90005C9186 /* salada */,
 				15D9BC2F2925DC91005C9186 /* saladaTests */,
@@ -128,6 +133,7 @@
 		15D9BC1E2925DC90005C9186 /* salada */ = {
 			isa = PBXGroup;
 			children = (
+				15D9BC7E29291D69005C9186 /* Managers */,
 				15D9BC6F2927318E005C9186 /* Info.plist */,
 				15D9BC1F2925DC90005C9186 /* SaladaApp.swift */,
 				15D9BC212925DC90005C9186 /* ContentView.swift */,
@@ -189,6 +195,14 @@
 				15D9BC6929272EF7005C9186 /* Poppins-Light.ttf */,
 			);
 			path = CustomFonts;
+			sourceTree = "<group>";
+		};
+		15D9BC7E29291D69005C9186 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				15D9BC7F29291D75005C9186 /* CoreDataManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -335,6 +349,8 @@
 				15D9BC222925DC90005C9186 /* ContentView.swift in Sources */,
 				15D9BC4A2925DF57005C9186 /* DataStore.swift in Sources */,
 				15D9BC202925DC90005C9186 /* SaladaApp.swift in Sources */,
+				15D9BC8029291D75005C9186 /* CoreDataManager.swift in Sources */,
+				15D9BC7D29291CBA005C9186 /* SaladaModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,6 +681,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		15D9BC7B29291CBA005C9186 /* SaladaModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				15D9BC7C29291CBA005C9186 /* SaladaModel.xcdatamodel */,
+			);
+			currentVersion = 15D9BC7C29291CBA005C9186 /* SaladaModel.xcdatamodel */;
+			path = SaladaModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 15D9BC142925DC90005C9186 /* Project object */;
 }
