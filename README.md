@@ -1,7 +1,14 @@
 # Swift Salad
 
-This is just a simple app for my own good, where I used to learn more concepts about Swift but especially how to create an Swift app. This is my Hello World!
+This is just a simple app for my good, where I used to learn more concepts about Swift but especially how to create a Swift app. This is my Swift's Hello World app!
 
+With the Swift Salada you can:
+
+- Create pre-curated list of conversions you want to know (the values changes when you change the selected currency)
+- The pre-curated list are persisted locally, so you can close your app safely
+- Auto update the currency values when you open the app
+- Nice UI :shipit:
+- Tracks `EUR`, `GBP` and `USD` to `BRL`.
 
 ### Screenshots:
 
