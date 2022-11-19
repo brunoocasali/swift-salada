@@ -12,17 +12,6 @@ var response: URLResponse? = nil
 let actionCode = "paegx1"
 let baseURL = "https://\(actionCode)4xte.execute-api.us-east-1.amazonaws.com/dev/quote"
 
-struct Prefs {
-  static var currencyCode: String {
-    get {
-      return UserDefaults.standard.object(forKey: "lastCode") as? String ?? "EUR"
-    }
-
-    set(code) {
-      UserDefaults.standard.set(code, forKey: "lastCode")
-    }
-  }
-}
 
 struct ContentView: View {
   @Environment(\.scenePhase) var scenePhase
@@ -72,8 +61,8 @@ func styleCode(from: String) -> String {
 func loadCurrency(from: String? = nil, data: CurrencyDataStore = CurrencyDataStore()) {
   //  data.state = .loading
 
-  let fromCode = from ?? Prefs.currencyCode
-  Prefs.currencyCode = fromCode
+  let fromCode = from ?? Preferences.currencyCode
+  Preferences.currencyCode = fromCode
 
   let url = URL(string: "\(baseURL)?from=\(fromCode)&to=BRL")!
   let decoder = JSONDecoder()
@@ -237,7 +226,7 @@ struct LoadedView: View {
         .edgesIgnoringSafeArea(.all)
 
       VStack(alignment: .leading) {
-        TileView(activeCurrency: Prefs.currencyCode, data: self.data)
+        TileView(activeCurrency: Preferences.currencyCode, data: self.data)
 
         Spacer(minLength: 0)
       }.padding(.all, 1)

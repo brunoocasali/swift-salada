@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15B4612929294BC2002786AA /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B4612829294BC2002786AA /* Preferences.swift */; };
 		15D9BC202925DC90005C9186 /* SaladaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC1F2925DC90005C9186 /* SaladaApp.swift */; };
 		15D9BC222925DC90005C9186 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D9BC212925DC90005C9186 /* ContentView.swift */; };
 		15D9BC272925DC91005C9186 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15D9BC262925DC91005C9186 /* Preview Assets.xcassets */; };
@@ -60,6 +61,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		15B4612829294BC2002786AA /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		15D9BC1C2925DC90005C9186 /* salada.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = salada.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15D9BC1F2925DC90005C9186 /* SaladaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaladaApp.swift; sourceTree = "<group>"; };
 		15D9BC212925DC90005C9186 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				15D9BC6F2927318E005C9186 /* Info.plist */,
 				15D9BC1F2925DC90005C9186 /* SaladaApp.swift */,
 				15D9BC212925DC90005C9186 /* ContentView.swift */,
+				15B4612829294BC2002786AA /* Preferences.swift */,
 				15D9BC232925DC91005C9186 /* Assets.xcassets */,
 				15D9BC252925DC91005C9186 /* Preview Content */,
 				15D9BC492925DF57005C9186 /* DataStore.swift */,
@@ -348,6 +351,7 @@
 			files = (
 				15D9BC222925DC90005C9186 /* ContentView.swift in Sources */,
 				15D9BC4A2925DF57005C9186 /* DataStore.swift in Sources */,
+				15B4612929294BC2002786AA /* Preferences.swift in Sources */,
 				15D9BC202925DC90005C9186 /* SaladaApp.swift in Sources */,
 				15D9BC8029291D75005C9186 /* CoreDataManager.swift in Sources */,
 				15D9BC7D29291CBA005C9186 /* SaladaModel.xcdatamodeld in Sources */,
