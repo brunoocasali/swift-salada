@@ -131,7 +131,7 @@ struct TileView: View {
         ForEach(currencies, id: \.self) { code in
           HStack {
             Text(styleCode(from: code))
-              .font(Font.custom("Ubuntu-Medium", size: 54))
+              .font(Font.custom("Ubuntu-Light", size: 54))
               .padding(.all, 10)
 
             Spacer(minLength: 0)
@@ -169,7 +169,7 @@ struct LoadedView: View {
         HStack(alignment: .lastTextBaseline) {
           // R$ 5.12
           Text(self.data.current.amount(), format: .currency(code: self.data.current.to))
-            .font(Font.custom("Ubuntu-Medium", size: 74))
+            .font(Font.custom("Ubuntu-Light", size: 74))
 
           // BRL
           Text(self.data.current.to)
@@ -187,6 +187,7 @@ struct LoadedView: View {
         ZStack(alignment: .leading) {
           HStack {
             TextField("Number", text: $newConversion)
+              .font(Font.custom("Ubuntu-Light", size: 18))
               .keyboardType(.decimalPad)
               .focused($numIsFocused)
               .modifier(TextFieldClearButton(text: $newConversion))
@@ -202,7 +203,8 @@ struct LoadedView: View {
               Label("Conversion", systemImage: "plus")
                 .font(Font.custom("Ubuntu-Light", size: 18))
             }.buttonStyle(.bordered)
-             .tint(.gray)
+              .tint(newConversion.isEmpty ? .gray : .blue)
+              .disabled(newConversion.isEmpty)
           }.padding()
         }.frame(height: UIScreen.main.bounds.height / 14)
 
