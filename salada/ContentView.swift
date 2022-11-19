@@ -12,6 +12,18 @@ var response: URLResponse? = nil
 let actionCode = "paegx1"
 let baseURL = "https://\(actionCode)4xte.execute-api.us-east-1.amazonaws.com/dev/quote"
 
+struct Prefs {
+  static var currencyCode: String {
+    get {
+      return UserDefaults.standard.object(forKey: "lastCode") as? String ?? "EUR"
+    }
+
+    set(code) {
+      UserDefaults.standard.set(code, forKey: "lastCode")
+    }
+  }
+}
+
 struct ContentView: View {
   @Environment(\.scenePhase) var scenePhase
   
@@ -23,7 +35,8 @@ struct ContentView: View {
       switch self.data.state {
       case .failed(_):
         VStack {
-          Text("Failed loading currencies").foregroundColor(Color.red)
+          Text("Failed loading currencies")
+            .foregroundColor(Color.red)
         }
       case .loading:
         VStack {
@@ -32,12 +45,15 @@ struct ContentView: View {
       case .loaded:
         LoadedView(data: self.data)
       }
-    }.onAppear { loadCurrency(from: "EUR", data: self.data) }
-      .onChange(of: scenePhase) { newPhase in
-        if newPhase == .active {
-          loadCurrency(from: "EUR", data: self.data)
-        }
+    }
+    .onAppear {
+      loadCurrency(from: nil, data: self.data)
+    }
+    .onChange(of: scenePhase) { newPhase in
+      if newPhase == .active {
+        loadCurrency(from: nil, data: self.data)
       }
+    }
   }
 }
 
@@ -53,10 +69,13 @@ func styleCode(from: String) -> String {
   return from
 }
 
-func loadCurrency(from: String = "EUR", data: CurrencyDataStore = CurrencyDataStore()) {
+func loadCurrency(from: String? = nil, data: CurrencyDataStore = CurrencyDataStore()) {
   //  data.state = .loading
 
-  let url = URL(string: "\(baseURL)?from=\(from)&to=BRL")!
+  let fromCode = from ?? Prefs.currencyCode
+  Prefs.currencyCode = fromCode
+
+  let url = URL(string: "\(baseURL)?from=\(fromCode)&to=BRL")!
   let decoder = JSONDecoder()
   decoder.dateDecodingStrategy = .millisecondsSince1970
 
@@ -66,6 +85,7 @@ func loadCurrency(from: String = "EUR", data: CurrencyDataStore = CurrencyDataSt
             httpResponse.statusCode == 200 else {
         throw URLError(.badServerResponse)
       }
+
       usleep(50000); // 50ms
 
       return element.data
@@ -113,10 +133,10 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct TileView: View {
+  @State var activeCurrency: String
   @ObservedObject var data = CurrencyDataStore()
 
   private let currencies: [String] = ["eur", "usd", "gbp"]
-  @State var activeCurrency: String = "eur"
 
   var body: some View {
     ZStack(alignment: .topTrailing) {
@@ -217,7 +237,7 @@ struct LoadedView: View {
         .edgesIgnoringSafeArea(.all)
 
       VStack(alignment: .leading) {
-        TileView(data: self.data)
+        TileView(activeCurrency: Prefs.currencyCode, data: self.data)
 
         Spacer(minLength: 0)
       }.padding(.all, 1)
