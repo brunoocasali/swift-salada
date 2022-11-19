@@ -60,6 +60,9 @@ class CurrencyDataStore: ObservableObject {
   // @Published is a property wrapper that announces when changes occur to the DataStore.
   @Published var current = Currency()
   @Published var state = State.loading
+  @Published var conversions: [Double] = [1000, 500]
+
+  let maxConversions = 4
 
   init(current: Currency = Currency(), state: State = State.loading) {
     self.current = current
@@ -69,7 +72,7 @@ class CurrencyDataStore: ObservableObject {
   enum State {
     case loading
     case failed(Error)
-    case loaded//(Currency)
+    case loaded
   }
 
   func setCurrent(currency: Currency?) {
@@ -79,5 +82,22 @@ class CurrencyDataStore: ObservableObject {
 
     self.current = data
     self.state = .loaded
+  }
+
+  func upsertConversions(value: Double?) {
+    guard let value = value else {
+      return;
+    }
+
+    if conversions.contains(value) {
+      return;
+    }
+
+    if conversions.count < maxConversions {
+      conversions.insert(value, at: 0)
+    } else {
+      conversions.insert(value, at: 0)
+      conversions.removeLast()
+    }
   }
 }

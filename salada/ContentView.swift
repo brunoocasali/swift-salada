@@ -1,13 +1,14 @@
 import SwiftUI
 import UIKit
 import Combine
+import CoreData
 
 var pub: AnyPublisher<[Currency], any Error>? = nil
 var sub: Cancellable? = nil
 
 var data: Currency? = nil
 var response: URLResponse? = nil
-var list = [100.0, 1000.0, 9306.0]
+
 
 let baseURL = "https://paegx14xte.execute-api.us-east-1.amazonaws.com/dev/quote"
 
@@ -27,7 +28,7 @@ struct ContentView: View {
           Text("Loading currencies")
         }
       case .loaded:
-        LoadedView(data: self.data)
+        LoadedView(data: self.data, newConversion: "")
       }
     }.onAppear { loadCurrency(from: "EUR", data: self.data) }
   }
@@ -51,13 +52,12 @@ func loadCurrency(from: String = "EUR", data: CurrencyDataStore = CurrencyDataSt
   decoder.dateDecodingStrategy = .millisecondsSince1970
 
   pub = URLSession.shared.dataTaskPublisher(for: url)
-//      .print("Test")
     .tryMap() { element -> Data in
       guard let httpResponse = element.response as? HTTPURLResponse,
         httpResponse.statusCode == 200 else {
           throw URLError(.badServerResponse)
         }
-        usleep(200000); // 200ms
+        usleep(50000); // 50ms
 
       return element.data
     }
@@ -126,7 +126,7 @@ struct TileView: View {
               .padding(.all, 10)
 
             Spacer(minLength: 0)
-          }.padding(.all, 10)
+          }.padding()
            .tag(code)
         }
       }.tabViewStyle(.page(indexDisplayMode: .always))
@@ -141,45 +141,68 @@ struct TileView: View {
 
 struct LoadedView: View {
   @ObservedObject var data = CurrencyDataStore()
+  @State var newConversion: String
+  @FocusState private var numIsFocused: Bool
 
   var body: some View {
     ZStack {
       Color.gray
-          .opacity(0.18)
-          .edgesIgnoringSafeArea(.all)
+        .opacity(0.18)
+        .edgesIgnoringSafeArea(.all)
 
       VStack(alignment: .leading) {
-        TileView(data: data)
+        TileView(data: self.data)
 
         Spacer(minLength: 0)
       }.padding(.all, 1)
 
       VStack(alignment: .center) {
         HStack(alignment: .lastTextBaseline) {
-          Text(data.current.amount(), format: .currency(code: data.current.to))
+          Text(self.data.current.amount(), format: .currency(code: self.data.current.to))
             .font(Font.custom("Ubuntu-Medium", size: 74))
 
-          Text(data.current.to)
+          Text(self.data.current.to)
             .font(Font.custom("Ubuntu-Medium", size: 32))
             .multilineTextAlignment(.trailing)
-        }
+        }.padding(.top, 80)
+          .frame(height: 300, alignment: .center)
 
         Divider()
           .frame(width: UIScreen.main.bounds.width / 3, height: 1)
           .overlay(.gray)
           .padding(.bottom, 20)
 
-
-
         VStack {
           ZStack(alignment: .leading) {
-            Text("Quick conversions:").padding(.bottom)
-              .font(Font.custom("Ubuntu-Light", size: 20))
-              .multilineTextAlignment(.leading)
+            HStack {
+              TextField("Number", text: $newConversion)
+                .keyboardType(.decimalPad)
+                .focused($numIsFocused)
+                .modifier(TextFieldClearButton(text: $newConversion))
+                .overlay(VStack { Divider().offset(x: 0, y: 15) })
+
+              Spacer(minLength: 50)
+
+              Button {
+                self.data.upsertConversions(value: Double(newConversion))
+                numIsFocused = false
+                $newConversion.wrappedValue = ""
+              } label: {
+                Label("Conversion", systemImage: "plus")
+                  .font(Font.custom("Ubuntu-Light", size: 18))
+              }.buttonStyle(.bordered)
+                .tint(.gray)
+
+            }.padding()
           }
 
-          ForEach(list, id: \.self) { amount in
+          ForEach(self.data.conversions, id: \.self) { amount in
             LineItemView(rate: amount, data: self.data)
+          }
+
+          if self.data.conversions.isEmpty {
+            Text("No quick conversions added yet!")
+              .font(Font.custom("Ubuntu-Light", size: 18))
           }
         }
       }
@@ -188,14 +211,14 @@ struct LoadedView: View {
 }
 
 struct LineItemView: View {
-  var rate: Double = 0.0
+  @State var rate: Double = 0.0
   var data = CurrencyDataStore()
 
   var body: some View {
     ZStack {
       RoundedRectangle(cornerRadius: 6.0)
         .foregroundColor(Color.gray.opacity(0.08))
-        .frame(height: 60)
+        .frame(height: 50)
 
       VStack {
         HStack {
@@ -208,6 +231,32 @@ struct LineItemView: View {
             .font(Font.custom("Ubuntu-Light", size: 22))
         }
       }.padding(.horizontal)
+        .onTapGesture {
+          if let index = self.data.conversions.firstIndex(of: rate) {
+            self.data.conversions.remove(at: index)
+          }
+        }
     }.padding(.horizontal)
   }
+}
+
+
+struct TextFieldClearButton: ViewModifier {
+    @Binding var text: String
+
+    func body(content: Content) -> some View {
+        HStack {
+            content
+
+            if !text.isEmpty {
+                Button(
+                    action: { self.text = "" },
+                    label: {
+                        Image(systemName: "delete.left")
+                            .foregroundColor(Color(UIColor.opaqueSeparator))
+                    }
+                )
+            }
+        }
+    }
 }
