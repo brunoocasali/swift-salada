@@ -13,6 +13,8 @@ var response: URLResponse? = nil
 let baseURL = "https://paegx14xte.execute-api.us-east-1.amazonaws.com/dev/quote"
 
 struct ContentView: View {
+  @Environment(\.scenePhase) var scenePhase
+  
   @ObservedObject var data = CurrencyDataStore()
 //  let data: CurrencyDataStore
 
@@ -25,12 +27,17 @@ struct ContentView: View {
         }
       case .loading:
         VStack {
-          Text("Loading currencies")
+          Text("Loading currencies!")
         }
       case .loaded:
         LoadedView(data: self.data, newConversion: "")
       }
     }.onAppear { loadCurrency(from: "EUR", data: self.data) }
+      .onChange(of: scenePhase) { newPhase in
+        if newPhase == .active {
+          loadCurrency(from: "EUR", data: self.data)
+        }
+      }
   }
 }
 
@@ -39,6 +46,8 @@ func styleCode(from: String) -> String {
     return "Euro"
   } else if from == "usd" {
     return "US Dollar"
+  } else if from == "gbp" {
+    return "UK Pound"
   }
 
   return from
@@ -104,7 +113,7 @@ struct ContentView_Previews: PreviewProvider {
 struct TileView: View {
   @ObservedObject var data = CurrencyDataStore()
 
-  private let currencies: [String] = ["eur", "usd"]
+  private let currencies: [String] = ["eur", "usd", "gbp"]
   @State var activeCurrency: String = "eur"
 
   var body: some View {
