@@ -60,9 +60,9 @@ class CurrencyDataStore: ObservableObject {
   // @Published is a property wrapper that announces when changes occur to the DataStore.
   @Published var current = Currency()
   @Published var state = State.loading
-  @Published var conversions: [Double] = [1000, 500]
+  @Published var conversions: [Double] = [1000, 500, 9506, 123, 243]
 
-  let maxConversions = 4
+  let maxConversions = 5
 
   init(current: Currency = Currency(), state: State = State.loading) {
     self.current = current
