@@ -9,7 +9,6 @@ var sub: Cancellable? = nil
 var data: Currency? = nil
 var response: URLResponse? = nil
 
-
 let actionCode = "paegx1"
 let baseURL = "https://\(actionCode)4xte.execute-api.us-east-1.amazonaws.com/dev/quote"
 
@@ -17,7 +16,7 @@ struct ContentView: View {
   @Environment(\.scenePhase) var scenePhase
   
   @ObservedObject var data = CurrencyDataStore()
-//  let data: CurrencyDataStore
+  //  let data: CurrencyDataStore
 
   var body: some View {
     NavigationView {
@@ -55,7 +54,7 @@ func styleCode(from: String) -> String {
 }
 
 func loadCurrency(from: String = "EUR", data: CurrencyDataStore = CurrencyDataStore()) {
-//  data.state = .loading
+  //  data.state = .loading
 
   let url = URL(string: "\(baseURL)?from=\(from)&to=BRL")!
   let decoder = JSONDecoder()
@@ -64,10 +63,10 @@ func loadCurrency(from: String = "EUR", data: CurrencyDataStore = CurrencyDataSt
   pub = URLSession.shared.dataTaskPublisher(for: url)
     .tryMap() { element -> Data in
       guard let httpResponse = element.response as? HTTPURLResponse,
-        httpResponse.statusCode == 200 else {
-          throw URLError(.badServerResponse)
-        }
-        usleep(50000); // 50ms
+            httpResponse.statusCode == 200 else {
+        throw URLError(.badServerResponse)
+      }
+      usleep(50000); // 50ms
 
       return element.data
     }
@@ -77,13 +76,13 @@ func loadCurrency(from: String = "EUR", data: CurrencyDataStore = CurrencyDataSt
 
   sub = pub?.sink(
     receiveCompletion: { completion in
-        switch completion {
-        case .finished:
-            break
-        case .failure(let error):
-          data.state = .failed(error)
-          print(error.localizedDescription)
-        }
+      switch completion {
+      case .finished:
+        break
+      case .failure(let error):
+        data.state = .failed(error)
+        print(error.localizedDescription)
+      }
     },
     receiveValue: { data.setCurrent(currency: $0.first) }
   )
@@ -105,10 +104,12 @@ extension CurrencyDataStore {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-      Group {
-        ContentView(data: .previewData())
-      }
+    Group {
+      let persistedContainer = CoreDataManager.shared.persistentContainer
+
+      ContentView(data: .previewData()).environment(\.managedObjectContext, persistedContainer.viewContext)
     }
+  }
 }
 
 struct TileView: View {
