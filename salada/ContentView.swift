@@ -10,7 +10,8 @@ var data: Currency? = nil
 var response: URLResponse? = nil
 
 
-let baseURL = "https://paegx14xte.execute-api.us-east-1.amazonaws.com/dev/quote"
+let actionCode = "paegx1"
+let baseURL = "https://\(actionCode)4xte.execute-api.us-east-1.amazonaws.com/dev/quote"
 
 struct ContentView: View {
   @Environment(\.scenePhase) var scenePhase
